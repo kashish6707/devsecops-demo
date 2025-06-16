@@ -7,9 +7,7 @@ COPY . .
 RUN npm run build
 
 # Production stage
-FROM nginx:1.25  # Use full image or keep alpine if size is a concern
+FROM nginx:alpine AS production  # <- Make sure this line is correct!
 COPY --from=build /app/dist /usr/share/nginx/html
-COPY nginx.conf /etc/nginx/conf.d/default.conf  # Optional
-HEALTHCHECK CMD wget --no-verbose --tries=1 --spider http://localhost || exit 1
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
